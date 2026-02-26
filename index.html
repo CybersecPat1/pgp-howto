@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GnuPG Mastery | Neon Industrial</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+            color: #00ffcc; /* Neon Cyan */
+            background-color: #050505;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000;
+            color: #ff00ff; /* Neon Magenta */
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 3px double #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        .main-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 2rem auto;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        /* Sidebar Styles */
+        aside {
+            flex: 1;
+            min-width: 250px;
+            background: #0a0a0a;
+            padding: 1.5rem;
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 15px #ff00ff;
+        }
+        aside h3 {
+            color: #ff00ff;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 5px;
+        }
+        aside ul {
+            list-style: none;
+            padding: 0;
+        }
+        aside li {
+            margin-bottom: 15px;
+        }
+        aside a {
+            color: #00ffcc;
+            text-decoration: none;
+            display: block;
+            transition: 0.3s;
+        }
+        aside a:hover {
+            color: #fffb00;
+            text-shadow: 0 0 8px #fffb00;
+            padding-left: 5px;
+        }
+        /* Content Box Styles */
+        .container {
+            flex: 3;
+            min-width: 300px;
+            background: #0a0a0a;
+            padding: 2rem;
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 20px #00ffcc;
+        }
+        h2 {
+            border-bottom: 1px solid #ff00ff;
+            padding-bottom: 0.5rem;
+            color: #ff00ff;
+            text-shadow: 0 0 5px #ff00ff;
+            text-transform: uppercase;
+        }
+        h3 {
+            color: #fffb00;
+            text-shadow: 0 0 3px #fffb00;
+        }
+        pre {
+            background: #000;
+            color: #00ffcc;
+            padding: 1rem;
+            overflow-x: auto;
+            border: 1px solid #ff00ff;
+            box-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+            color: #444;
+            border-top: 1px solid #222;
+        }
+        .note {
+            background-color: #1a001a;
+            border: 1px solid #ff00ff;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #ffccff;
+        }
+        ul { list-style-type: square; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>&gt; COMMAND LINE GNUPG MASTERY</h1>
+    <p>A Cyber Chronicles Page</p>
+</header>
+
+<div class="main-wrapper">
+    <aside>
+        <h3>Network Nodes</h3>
+        <ul>
+            <li><a href="https://patsprivate.email" target="_blank">&gt; Pat's Private Email</a></li>
+            <li><a href="https://cybersecpat.com" target="_blank">&gt; CyberSec Pat</a></li>
+            <li><a href="https://youtube.com/@patscyberchronicles" target="_blank">&gt; Pat's Cyber Chronicles</a></li>
+            <li><a href="https://infosec.exchange/@pat" target="_blank">&gt; Mastodon @ Infosec</a></li>
+        </ul>
+    </aside>
+
+    <div class="container">
+        <h2>1. Installation</h2>
+        <p>Most Linux distributions come with GPG pre-installed. For macOS, use Homebrew to keep the footprint small.</p>
+        <pre># macOS (using Homebrew)
+brew install gnupg
+
+# Ubuntu/Debian
+sudo apt install gnupg
+
+# Fedora
+sudo dnf install gnupg</pre>
+
+        <h2>2. Generating Your Key Pair</h2>
+        <p>Generate a key pair with maximum control over security parameters.</p>
+        <pre>gpg --full-generate-key</pre>
+        <ul>
+            <li><strong>Algorithm:</strong> RSA and RSA (4096 bits) or Ed25519.</li>
+            <li><strong>Expiration:</strong> 2y recommended.</li>
+        </ul>
+
+        <h2>3. Backup & Key Migration</h2>
+        <p>To move your identity or keep a hard copy offline, you must export both keys.</p>
+        <h3>Exporting Public & Private Keys:</h3>
+        <pre># Export Public Key (Shareable)
+gpg --armor --export your-email@example.com > my-public-key.asc
+
+# Export Private Key (KEEP SECRET!)
+gpg --armor --export-secret-keys your-email@example.com > my-private-key.asc</pre>
+        
+        <h3>Importing Keys on a New System:</h3>
+        <pre># Import both to restore your identity
+gpg --import my-public-key.asc
+gpg --import my-private-key.asc</pre>
+
+        <h2>4. Managing Contact Keys</h2>
+        <p>To email someone securely, you need <strong>their</strong> public key.</p>
+        <pre>gpg --import contact_key.asc</pre>
+
+        <h2>5. Encrypting an Email Body</h2>
+        <p>Write your message to <code>message.txt</code> then run:</p>
+        <pre>gpg --encrypt --armor --recipient friend@example.com message.txt</pre>
+        <p>This generates an ASCII block in <code>message.txt.asc</code> for copy-pasting into your email client.</p>
+
+        <h2>6. Decrypting Received Messages</h2>
+        <p>Decrypt incoming ciphertext saved as <code>secret.asc</code>:</p>
+        <pre>gpg --decrypt secret.asc</pre>
+
+        <div class="note">
+            <strong>CRITICAL:</strong> Verify fingerprints with <code>gpg --fingerprint contact@example.com</code> before trusting a new key.
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>SYS_ADMIN_READY // &copy; 2026 // ENCRYPT EVERYTHING</p>
+</footer>
+
+</body>
+</html>
